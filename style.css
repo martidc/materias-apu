@@ -26,7 +26,7 @@ body {
 .titulo-con-progreso {
   position: relative;
   flex: 1;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: #ffffff4d;
   border-radius: 8px;
   padding: 10px 20px;
   overflow: hidden;
@@ -52,15 +52,15 @@ body {
   z-index: 2;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
-  background-color: rgba(255, 255, 255, 0.8);
+  color: #333333;
+  background-color: #ffffffcc;
   padding: 4px 12px;
   border-radius: 20px;
   white-space: nowrap;
 }
 
 h1 {
-  color: #333;
+  color: #333333;
   font-size: 32px;
   font-weight: bold;
   margin: 0;
@@ -179,13 +179,13 @@ h2 {
 }
 
 .modal-contenido h3 {
-  color: #333;
+  color: #333333;
   font-size: 24px;
   margin: 0 0 15px 0;
 }
 
 .modal-contenido p {
-  color: #666;
+  color: #666666;
   font-size: 16px;
   margin-bottom: 25px;
 }
@@ -208,7 +208,7 @@ h2 {
 
 .btn-cancelar {
   background-color: #9e9e9e;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-cancelar:hover {
@@ -217,7 +217,7 @@ h2 {
 
 .btn-confirmar {
   background-color: #e08780;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-confirmar:hover {
