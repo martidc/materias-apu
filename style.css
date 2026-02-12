@@ -1,20 +1,25 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f5f5f5;
-  padding: 10px;
-  margin-top: 0%;
+  padding: 5px 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .header-container {
   background-color: #b0cddd;
   border-radius: 8px;
-  padding: 15px 20px;
-  margin-bottom: 15px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 15px;
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .header-buttons {
@@ -28,12 +33,12 @@ body {
   flex: 1;
   background-color: #ffffff4d;
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 8px 15px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 60px;
+  min-height: 45px;
   gap: 15px;
 }
 
@@ -61,43 +66,42 @@ body {
 
 h1 {
   color: #333333;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
   margin: 0;
   background-color: transparent;
   position: relative;
   z-index: 2;
-  font-size: 30px;
   text-align: center;
 }
 
 h2 {
   background-color: #b0cddd;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: #333;
   text-align: center;
   border-radius: 8px;
-  padding: 12px;
+  padding: 8px;
   margin: 0;
 }
 
 /* CONTENEDOR PRINCIPAL */
 .malla {
   display: grid;
-  gap: 2.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
-  justify-items: center;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 400px));
+  justify-content: center;
   align-items: start;
   width: 100%;
+  max-width: 1400px;
 }
 
 /* COLUMNA DE CADA AÑO */
 .año {
   display: grid;
   width: 100%;
-  padding: 10px;
+  padding: 5px;
 }
 
 /* CADA CUATRIMESTRE */
@@ -105,12 +109,12 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .año-label {
-  font-size: 18px;
-  margin-top: 10px;
+  font-size: 16px;
+  margin-top: 8px;
 }
 
 /* MATERIAS */
@@ -118,14 +122,14 @@ h2 {
   background-color: #f8d7d7;
   color: #6e5358;
   border-radius: 8px;
-  padding: 10px;
+  padding: 8px;
 
   width: 100%;
   text-align: center;
   cursor: pointer;
-  margin: 1px;
+  margin: 1px 5px;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  max-width: 280px;
+  font-size: 14px;
 }
 
 .materia.hecha {
@@ -145,8 +149,8 @@ h2 {
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 8px 16px;
+  font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -239,10 +243,14 @@ h2 {
 
   .malla {
     grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .año {
+    padding: 0;
   }
 
   .materia {
     max-width: 100%;
   }
 }
-
