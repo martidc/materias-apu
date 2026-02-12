@@ -34,6 +34,7 @@ body {
   align-items: center;
   justify-content: space-between;
   min-height: 60px;
+  gap: 15px;
 }
 
 .barra-progreso-fondo {
@@ -68,7 +69,6 @@ h1 {
   z-index: 2;
   font-size: 30px;
   text-align: center;
-  
 }
 
 h2 {
@@ -79,14 +79,15 @@ h2 {
   text-align: center;
   border-radius: 8px;
   padding: 12px;
-  margin:0;
+  margin: 0;
 }
 
 /* CONTENEDOR PRINCIPAL */
 .malla {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
   justify-items: center;
   align-items: start;
   width: 100%;
@@ -96,6 +97,7 @@ h2 {
 .año {
   display: grid;
   width: 100%;
+  padding: 10px;
 }
 
 /* CADA CUATRIMESTRE */
@@ -103,7 +105,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
 }
 
 .año-label {
@@ -117,11 +119,13 @@ h2 {
   color: #6e5358;
   border-radius: 8px;
   padding: 10px;
+
   width: 100%;
   text-align: center;
   cursor: pointer;
   margin: 1px;
   transition: transform 0.3s ease, background-color 0.3s ease;
+  max-width: 280px;
 }
 
 .materia.hecha {
@@ -159,19 +163,19 @@ h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #000000;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
 .modal-contenido {
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 30px;
   max-width: 400px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px #000000;
 }
 
 .modal-contenido h3 {
@@ -219,3 +223,26 @@ h2 {
 .btn-confirmar:hover {
   background-color: #d64141;
 }
+
+/* MEJORA EN CELULAR*/
+@media (max-width: 600px) {
+
+  .titulo-con-progreso {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .progreso-texto {
+    font-size: 13px;
+  }
+
+  .malla {
+    grid-template-columns: 1fr;
+  }
+
+  .materia {
+    max-width: 100%;
+  }
+}
+
