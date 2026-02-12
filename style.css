@@ -1,25 +1,88 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f5f5f5;
-  padding: 20px;
-  margin: 0;
+  padding: 10px;
+  margin-top: 0%;
+}
+
+.header-container {
+  background-color: #b0cddd;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.titulo-con-progreso {
+  position: relative;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 10px 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+}
+
+.barra-progreso-fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #4caf504d;
+  transition: width 0.5s ease;
+  border-radius: 8px;
+}
+
+.progreso-texto {
+  position: relative;
+  z-index: 2;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
 }
 
 h1 {
-  text-align: center;
   color: #333;
-  background-color: #b0cddd;
-  border-radius: 8px;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+  background-color: transparent;
+  position: relative;
+  z-index: 2;
+  font-size: 30px;
+  text-align: center;
+  
 }
 
 h2 {
-  font-size: 20px;
+  background-color: #b0cddd;
+  font-size: 24px;
+  font-weight: bold;
   color: #333;
   text-align: center;
-  background-color: #b0cddd;
   border-radius: 8px;
+  padding: 12px;
+  margin:0;
 }
 
+/* CONTENEDOR PRINCIPAL */
 .malla {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -29,11 +92,13 @@ h2 {
   width: 100%;
 }
 
+/* COLUMNA DE CADA AÑO */
 .año {
   display: grid;
   width: 100%;
 }
 
+/* CADA CUATRIMESTRE */
 .cuatrimestre {
   display: flex;
   flex-direction: column;
@@ -43,10 +108,10 @@ h2 {
 
 .año-label {
   font-size: 18px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
-
+/* MATERIAS */
 .materia {
   background-color: #f8d7d7;
   color: #6e5358;
@@ -70,3 +135,87 @@ h2 {
   pointer-events: none;
 }
 
+/* BOTÓN REINICIAR */
+.btn-reiniciar {
+  background-color: #e08780;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reiniciar:hover {
+  background-color: #d64141;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-contenido h3 {
+  color: #333;
+  font-size: 24px;
+  margin: 0 0 15px 0;
+}
+
+.modal-contenido p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+.modal-botones {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn-cancelar,
+.btn-confirmar {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancelar {
+  background-color: #9e9e9e;
+  color: white;
+}
+
+.btn-cancelar:hover {
+  background-color: #757575;
+}
+
+.btn-confirmar {
+  background-color: #e08780;
+  color: white;
+}
+
+.btn-confirmar:hover {
+  background-color: #d64141;
+}
