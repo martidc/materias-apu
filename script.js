@@ -58,6 +58,99 @@ function guardarProgreso() {
   localStorage.setItem('progresoMaterias', JSON.stringify(estado));
 }
 
+// Modal de exportar
+function mostrarModalExportar() {
+  const progreso = localStorage.getItem('progresoMaterias');
+  
+  if (!progreso || progreso === "{}") {
+  mostrarModalAviso("Todavía no marcaste ninguna materia :(");
+  return;
+}
+
+  
+  const modal = document.getElementById('modal-exportar');
+  modal.style.display = 'flex';
+}
+
+function cerrarModalExportar() {
+  const modal = document.getElementById('modal-exportar');
+  modal.style.display = 'none';
+}
+
+// exportar a JSON
+function exportarJSON() {
+  const progreso = localStorage.getItem('progresoMaterias');
+  
+  const exportData = {
+    fecha: new Date().toISOString(),
+    progreso: JSON.parse(progreso),
+    totalMaterias: totalMaterias,
+    completadas: Object.values(JSON.parse(progreso)).filter(v => v).length
+  };
+
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `progreso-malla-${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a);
+  a.click();
+  
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  cerrarModalExportar();
+}
+
+// Exportar a PDF
+function exportarPDF() {
+  const progreso = localStorage.getItem("progresoMaterias");
+
+  if (!progreso || progreso === "{}") {
+    mostrarModalAviso("Todavía no marcaste ninguna materia.");
+    return;
+  }
+
+  const datos = JSON.parse(progreso);
+
+  const completadas = Object.keys(datos).filter(id => datos[id]);
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text("Progreso - Malla Curricular APU", 10, 15);
+
+  doc.setFontSize(12);
+  doc.text(`Materias completadas: ${completadas.length}`, 10, 30);
+
+  let y = 45;
+  completadas.forEach((id, index) => {
+    const materia = materias.find(m => m.id === id);
+    doc.text(`- ${materia.nombre}`, 10, y);
+    y += 8;
+  });
+
+  doc.save("progreso-malla.pdf");
+
+  cerrarModalExportar();
+}
+
+function mostrarModalAviso(mensaje) {
+  document.getElementById("texto-aviso").textContent = mensaje;
+  document.getElementById("modal-aviso").style.display = "flex";
+}
+
+function cerrarModalAviso() {
+  document.getElementById("modal-aviso").style.display = "none";
+}
+
+
+function exportarProgreso() {
+  mostrarModalExportar();
+}
+
 // Reiniciar todo el progreso
 function reiniciarProgreso() {
   mostrarModal();
@@ -122,8 +215,8 @@ function Malla() {
       }
     };
   });
-  
-  actualizarProgreso();  // Actualizar barra de progreso
+
+actualizarProgreso();  // Actualizar barra de progreso
 }
 
 cargarProgreso();  // Cargar el progreso al iniciar
