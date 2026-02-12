@@ -143,6 +143,23 @@ h2 {
   pointer-events: none;
 }
 
+/*BOTÓN EXPORTAR*/
+.btn-exportar {
+  background-color: #ebe9e1b7;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-exportar:hover {
+  background-color: #9b9a95b7;
+}
+
+
 /* BOTÓN REINICIAR */
 .btn-reiniciar {
   background-color: #e08780;
@@ -179,6 +196,24 @@ h2 {
   padding: 30px;
   max-width: 400px;
   text-align: center;
+  position: relative;
+}
+
+.btn-cerrar-modal {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: #999;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  line-height: 1;
 }
 
 .modal-contenido h3 {
@@ -199,8 +234,7 @@ h2 {
   justify-content: center;
 }
 
-.btn-cancelar,
-.btn-confirmar {
+.btn-cancelar, .btn-confirmar, .btn-exportar-json, .btn-exportar-pdf {
   border: none;
   border-radius: 8px;
   padding: 10px 25px;
@@ -209,12 +243,12 @@ h2 {
   transition: background-color 0.3s ease;
 }
 
-.btn-cancelar {
+.btn-cancelar, .btn-exportar-json, .btn-exportar-pdf {
   background-color: #9e9e9e;
   color: #ffffff;
 }
 
-.btn-cancelar:hover {
+.btn-cancelar:hover,.btn-exportar-json:hover, .btn-exportar-pdf:hover {
   background-color: #757575;
 }
 
@@ -226,6 +260,13 @@ h2 {
 .btn-confirmar:hover {
   background-color: #d64141;
 }
+
+.btn-exportar-json, .btn-exportar-pdf {
+  background-color: #9e9e9e;
+  color: #ffffff;
+}
+
+
 
 /* MEJORA EN CELULAR*/
 @media (max-width: 600px) {
@@ -248,6 +289,11 @@ h2 {
   .año {
     padding: 0;
   }
+
+  .materia {
+    max-width: 100%;
+  }
+}
 
   .materia {
     max-width: 100%;
