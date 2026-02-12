@@ -9,7 +9,7 @@ const materias = [
   { id: 'am', nombre: 'Analisis Matemático', correlativas: [] },
   { id: 'elymd', nombre: 'Elementos de lógica y matemática discretaa', correlativas: [] },
   { id: 'ingles', nombre: 'Ingles', correlativas: [] },
-
+  
   //segundo año. primer cuatrimestre
   { id: 'ayp2', nombre: 'Algorítmica y Programación II', correlativas: ['ingles', 'ayp1'] },
   { id: 'adc', nombre: 'Arquitectura de Computadoras', correlativas: ['ingles', 'ei'] },
@@ -32,10 +32,73 @@ const materias = [
 ];
 
 const estado = {};  // Guarda qué materias están hechas
+const totalMaterias = materias.length;
 
-// Función que crea la tabla
-function Plan() {
-  // Cambiar color y bloquea correlativas
+
+// Actualizar barra de progreso
+function actualizarProgreso() {
+  const completadas = Object.values(estado).filter(v => v).length;
+  const porcentaje = Math.round((completadas / totalMaterias) * 100);
+  
+  document.getElementById('progreso-texto').textContent = `${completadas}/${totalMaterias} (${porcentaje}%)`;
+  document.getElementById('barra-progreso-fill').style.width = `${porcentaje}%`;
+}
+
+// Cargar el progreso guardado al iniciar
+function cargarProgreso() {
+  const guardado = localStorage.getItem('progresoMaterias');
+  if (guardado) {
+    const datos = JSON.parse(guardado);
+    Object.assign(estado, datos);
+  }
+}
+
+// Guardar el progreso en localStorage
+function guardarProgreso() {
+  localStorage.setItem('progresoMaterias', JSON.stringify(estado));
+}
+
+// Reiniciar todo el progreso
+function reiniciarProgreso() {
+  mostrarModal();
+}
+
+// Mostrar modal personalizado
+function mostrarModal() {
+  const modal = document.getElementById('modal-reiniciar');
+  modal.style.display = 'flex';
+}
+
+// Cerrar modal
+function cerrarModal() {
+  const modal = document.getElementById('modal-reiniciar');
+  modal.style.display = 'none';
+}
+
+// Confirmar reinicio
+function confirmarReinicio() {
+  localStorage.removeItem('progresoMaterias');
+  // Limpiar el objeto estado
+  for (let key in estado) {
+    delete estado[key];
+  }
+  // Actualizar la vista
+  materias.forEach(m => {
+    const div = document.getElementById(m.id);
+    div.classList.remove('hecha');
+    if (!m.correlativas.every(id => estado[id])) {
+      div.classList.add('bloqueada');
+    } else {
+      div.classList.remove('bloqueada');
+    }
+  });
+  actualizarProgreso();  // Actualizar barra de progreso
+  cerrarModal();
+}
+
+// Función que renderiza la malla
+function Malla() {
+  // Cambiar color y bloquear correlativas
   materias.forEach(m => {
     const div = document.getElementById(m.id);
     if (estado[m.id]) {
@@ -50,14 +113,18 @@ function Plan() {
       div.classList.remove('bloqueada');
     }
 
-    // Marca la materia como "hecha"
+    // Evento click para marcar la materia como "hecha"
     div.onclick = () => {
       if (!div.classList.contains('bloqueada')) {
         estado[m.id] = !estado[m.id];
-        Plan();
+        guardarProgreso();  // Guardar después de cada cambio
+        Malla();
       }
     };
   });
+  
+  actualizarProgreso();  // Actualizar barra de progreso
 }
 
-Plan();
+cargarProgreso();  // Cargar el progreso al iniciar
+Malla();
