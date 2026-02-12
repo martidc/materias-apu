@@ -3,8 +3,7 @@
 Proyecto web interactivo para visualizar y organizar el avance en la carrera **Analista de Programación Universitaria** mediante una malla curricular con correlativas, progreso guardado y sistema de reinicio.
 
 ## Demo
-https://martidc.github.io/malla-curricular/
-
+https://martidc.github.io/materias-apu/
 
 ## Motivación
 Hice este proyecto para visualizar el avance real en la carrera y practicar JavaScript a la vez.
@@ -44,7 +43,7 @@ malla-curricular/
 1) Clonar el repositorio:
 
 ```bash
-git clone https://github.com/martidc/malla-curricular.git
+https://github.com/martidc/materias-apu.git
 ```
 
 2) Abrir el proyecto:
