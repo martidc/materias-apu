@@ -59,5 +59,4 @@ git clone https://github.com/martidc/materias-apu.git
 - En caso de querer reiniciar, presionar **Reiniciar**
 
 ## Autora
-Desarrollado por Marti — estudiante de APU y desarrolladora en formación.
-
+Desarrollado por martidc 
