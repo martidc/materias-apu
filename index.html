@@ -1,125 +1,181 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malla Curricular Interactiva</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular Interactiva</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  </head>
 
 
-<body>
-  <div class="header-container">
-    <div class="titulo-con-progreso">
-        <div class="barra-progreso-fondo" id="barra-progreso-fill"></div>
-        <h1>Materias de APU</h1>
-        <span class="progreso-texto" id="progreso-texto">0/18 (0%)</span>
-    </div>
-    <div class="header-buttons">
-      <button class="btn-exportar" onclick="exportarProgreso()">Exportar</button>
-      <button class="btn-reiniciar" onclick="reiniciarProgreso()">Reiniciar</button>
-    </div>
-  </div>
-
-  <div class="malla">
-    <!-- Primer Año -->
-    <div class="año">
-      <h2>Primer año</h2>
-      <div class="cuatrimestre">
-        <div class="año-label">1er Cuatrimestre</div>
-        <div class="materia" id="ei">Elementos de Informática</div>
-        <div class="materia" id="algebra">Álgebra</div>
-        <div class="materia" id="epya">Expresión de Problemas y Algoritmos</div>
-      </div>
-      <div class="cuatrimestre">
-        <div class="año-label">2do Cuatrimestre</div>
-        <div class="materia" id="ayp1">Algorítmica y Programación I</div>
-        <div class="materia" id="am">Análisis Matemático</div>
-        <div class="materia" id="elymd">Elementos de la Lógica y Matemática Discreta</div>
-      </div>
-      <div class="cuatrimestre">
-        <div class="año-label"></div>
-        <div class="materia" id="ingles">Ingles</div>
-      </div>
-    </div>
-
-    <!-- Segundo Año -->
-    <div class="año">
-      <h2>Segundo año</h2>
-          <div class="cuatrimestre">
-            <div class="año-label">1er Cuatrimestre</div>
-            <div class="materia" id="syo">Sistemas y Organizaciones</div>
-            <div class="materia" id="adc">Arquitectura de Computadoras</div>
-            <div class="materia" id="ayp2">Algorítmica y Programación II</div>
-          </div>
-          <div class="cuatrimestre">
-            <div class="año-label">2do Cuatrimestre</div>
-            <div class="materia" id="bd1">Base de Datos I</div>
-            <div class="materia" id="estadistica">Estadística</div>
-            <div class="materia" id="poo">Programación Orientada a Objetos</div>
-          </div>
-        <div class="cuatrimestre">
+  <body>
+    <div class="header-container">
+      <div class="titulo-con-progreso">
+        <div class="barra-progreso-wrap">
+          <div class="barra-progreso-rendidas" id="barra-progreso-rendidas"></div>
+          <div class="barra-progreso-cursadas" id="barra-progreso-cursadas"></div>
         </div>
-    </div>
-
-    <!-- Tercer Año -->
-    <div class="año">
-      <h2>Tercer año</h2>
-          <div class="cuatrimestre">
-            <div class="año-label">1er Cuatrimestre</div>
-            <div class="materia" id="lpyl">Laboratorio de Programación y Lenguajes</div>
-            <div class="materia" id="ayds">Análisis y Diseño de Sistemas</div>
-            <div class="materia" id="so">Sistemas Operativos</div>
-          </div>
-          <div class="cuatrimestre">
-            <div class="año-label">2do Cuatrimestre</div>
-            <div class="materia" id="ds">Desarrollo de Software</div>
-          </div>
-          <div class="cuatrimestre">
-          </div>
-    </div>
-  </div>
-
-  <!-- Modal de confirmación -->
-  <div id="modal-reiniciar" class="modal">
-    <div class="modal-contenido">
-      <h3>¿Seguro?</h3>
-      <p>Se borrará todo el progreso.</p>
-      <div class="modal-botones">
-        <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-        <button class="btn-confirmar" onclick="confirmarReinicio()">Confirmar</button>
+          <h1>Materias de APU</h1>
+          <span class="progreso-texto" id="progreso-texto"></span>
+      </div>
+      <div class="header-buttons">
+        <button class="btn-exportar" onclick="exportarProgreso()">Exportar</button>
+        <button class="btn-reiniciar" onclick="reiniciarProgreso()">Reiniciar</button>
       </div>
     </div>
-  </div>
 
-    <!-- Modal de exportar -->
-  <div id="modal-exportar" class="modal">
-    <div class="modal-contenido">
-      <button class="btn-cerrar-modal" onclick="cerrarModalExportar()">×</button>
-      <h3>Exportar progreso</h3>
-      <p>Elegí el formato:</p>
-      <div class="modal-botones">
-        <button class="btn-exportar-json" onclick="exportarJSON()">
-          <span>JSON</span>
-        </button>
-        <button class="btn-exportar-pdf" onclick="exportarPDF()">
-          <span>PDF</span>
-        </button>
+    <div class="malla">
+      <!-- Primer Año -->
+      <div class="año">
+        <h2>Primer año</h2>
+        <div class="cuatrimestre">
+          <div class="año-label">1er Cuatrimestre</div>
+          <div class="materia" id="ei">Elementos de Informática</div>
+          <div class="materia" id="algebra">Álgebra</div>
+          <div class="materia" id="epya">Expresión de Problemas y Algoritmos</div>
+        </div>
+        <div class="cuatrimestre">
+          <div class="año-label">2do Cuatrimestre</div>
+          <div class="materia" id="ayp1">Algorítmica y Programación I</div>
+          <div class="materia" id="am">Análisis Matemático</div>
+          <div class="materia" id="elymd">Elementos de la Lógica y Matemática Discreta</div>
+        </div>
+        <div class="cuatrimestre">
+          <div class="año-label"></div>
+          <div class="materia" id="ingles">Ingles</div>
+        </div>
       </div>
+
+      <!-- Segundo Año -->
+      <div class="año">
+        <h2>Segundo año</h2>
+            <div class="cuatrimestre">
+              <div class="año-label">1er Cuatrimestre</div>
+              <div class="materia" id="syo">Sistemas y Organizaciones</div>
+              <div class="materia" id="adc">Arquitectura de Computadoras</div>
+              <div class="materia" id="ayp2">Algorítmica y Programación II</div>
+            </div>
+            <div class="cuatrimestre">
+              <div class="año-label">2do Cuatrimestre</div>
+              <div class="materia" id="bd1">Base de Datos I</div>
+              <div class="materia" id="estadistica">Estadística</div>
+              <div class="materia" id="poo">Programación Orientada a Objetos</div>
+            </div>
+          <div class="cuatrimestre">
+          </div>
+      </div>
+
+      <!-- Tercer Año -->
+      <div class="año">
+        <h2>Tercer año</h2>
+            <div class="cuatrimestre">
+              <div class="año-label">1er Cuatrimestre</div>
+              <div class="materia" id="lpyl">Laboratorio de Programación y Lenguajes</div>
+              <div class="materia" id="ayds">Análisis y Diseño de Sistemas</div>
+              <div class="materia" id="so">Sistemas Operativos</div>
+            </div>
+            <div class="cuatrimestre">
+              <div class="año-label">2do Cuatrimestre</div>
+              <div class="materia" id="ds">Desarrollo de Software</div>
+            </div>
+            <div class="cuatrimestre">
+            </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="modal-reiniciar" class="modal">
+      <div class="modal-contenido">
+        <h3>¿Seguro?</h3>
+        <p>Se borrará todo el progreso.</p>
+        <div class="modal-botones">
+          <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+          <button class="btn-confirmar" onclick="confirmarReinicio()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+      <!-- Modal de exportar -->
+    <div id="modal-exportar" class="modal">
+      <div class="modal-contenido">
+        <button class="btn-cerrar-modal" onclick="cerrarModalExportar()">×</button>
+        <h3>Exportar progreso</h3>
+        <p>Elegí el formato:</p>
+        <div class="modal-botones">
+          <button class="btn-exportar-json" onclick="exportarJSON()">
+            <span>JSON</span>
+          </button>
+          <button class="btn-exportar-pdf" onclick="exportarPDF()">
+            <span>PDF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  <!--Modal de aviso-->
+  <div id="modal-aviso" class="modal">
+    <div class="modal-contenido">
+      <button class="btn-cerrar-modal" onclick="cerrarModalAviso()">×</button>
+      <h3>Aviso</h3>
+      <p id="texto-aviso"></p>
     </div>
   </div>
 
- <!--Modal de aviso-->
-<div id="modal-aviso" class="modal">
-  <div class="modal-contenido">
-    <button class="btn-cerrar-modal" onclick="cerrarModalAviso()">×</button>
-    <h3>Aviso</h3>
-    <p id="texto-aviso"></p>
-  </div>
-</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
+    <script src="script.js"></script>
+    
+    <!-- botón modo oscuro -->
+      <button class="btn-dark-mode" id="btn-dark-mode" onclick="toggleDarkMode()" title="Cambiar tema">
+        <span class="material-symbols-outlined">moon_stars</span>
+      </button>
+      <!-- botón cómo funciona -->
+    <button class="btn-howto" onclick="abrirHowTo()" title="¿Cómo funciona?">?</button>
 
+    <!-- modal cómo funciona -->
+          <div id="modal-howto" class="modal">
+              <div class="modal-contenido modal-howto">
+                  <button class="btn-cerrar-modal" onclick="cerrarHowTo()">&minus;</button>
+                  <h3>¿Cómo funciona?</h3>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
-  <script src="script.js"></script>
-</body>
-</html>
+                  <div class="howto-secciones">
+                      <div class="howto-item">
+                        <div class="howto-materia-demo sin-hacer">Sin cursar</div>
+                        <p>Estado inicial de todas las materias.</p>
+                      </div>
+                      <div class="howto-item">
+                        <div class="howto-materia-demo hecha">Cursada</div>
+                        <p>Hace click una vez en la materia desbloqueada para marcarla como cursada.</p>
+                      </div>
+                      <div class="howto-item">
+                        <div class="howto-materia-demo aprobada">Aprobada</div>
+                        <p>Hace click dos veces para marcarla como aprobada (final rendido).</p>
+                      </div>
+                      <div class="howto-item">
+                          <div>
+                              <strong>Correlativas</strong>
+                              <p>Las materias en gris están bloqueadas hasta aprobar las correlativas.</p>
+                          </div>
+                      </div>
+                      <div class="howto-item">
+                          <div>
+                              <strong>Exportar</strong>
+                              <p>Usá el botón <b>exportar</b> para guardar el progreso en JSON o PDF.</p>
+                          </div>
+                      </div>
+
+                      <div class="howto-footer">
+                          <a href="https://github.com/martidc/" target="_blank" class="howto-social-btn" title="GitHub">
+                              <img src="media/github-logo.svg" alt="Github" class="github">                           
+                          </a>
+                          <a href="https://cafecito.app/martidc"
+                          target="_blank"
+                          class="howto-social-btn">
+                              <img src="media/cafecito-logo.svg" alt="Cafecito">
+                          </a>
+                    </div>
+                  </div>
+                </div>
+            </div>
+  </body>
+  </html>
