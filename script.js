@@ -7,7 +7,7 @@ const materias = [
   //primer año. segundo cuatrimestre
   { id: 'ayp1', nombre: 'Algorítmica y Programación I', correlativas: ['epya'] },
   { id: 'am', nombre: 'Analisis Matemático', correlativas: [] },
-  { id: 'elymd', nombre: 'Elementos de lógica y matemática discretaa', correlativas: [] },
+  { id: 'elymd', nombre: 'Elementos de lógica y matemática discreta', correlativas: [] },
   { id: 'ingles', nombre: 'Ingles', correlativas: [] },
   
   //segundo año. primer cuatrimestre
@@ -26,22 +26,25 @@ const materias = [
   { id: 'so', nombre: 'Sistemas operativos', correlativas: ['adc', 'ayp2'] },
 
   //tercer año. segundo cuatrimestre
-
   { id: 'ds', nombre: 'Desarrollo de Software', correlativas: ['poo', 'ayds'] },
-
 ];
 
-const estado = {};  // Guarda qué materias están hechas
+// Estados: 0 = no hecha, 1 = hecha (cursada), 2 = aprobada (final rendido)
+const estado = {};
 const totalMaterias = materias.length;
 
 
-// Actualizar barra de progreso
+// Actualizar barra de progreso — cursadas (amarillo) + rendidas (verde)
 function actualizarProgreso() {
-  const completadas = Object.values(estado).filter(v => v).length;
-  const porcentaje = Math.round((completadas / totalMaterias) * 100);
-  
-  document.getElementById('progreso-texto').textContent = `${completadas}/${totalMaterias} (${porcentaje}%)`;
-  document.getElementById('barra-progreso-fill').style.width = `${porcentaje}%`;
+  const cursadas = Object.values(estado).filter(v => v === 1).length;
+  const rendidas = Object.values(estado).filter(v => v === 2).length;
+  const pctCursadas = (cursadas / totalMaterias) * 100;
+  const pctRendidas = (rendidas / totalMaterias) * 100;
+
+  document.getElementById('progreso-texto').textContent =
+    `${cursadas + rendidas}/${totalMaterias} cursadas · ${rendidas}/${totalMaterias} rendidas`;
+  document.getElementById('barra-progreso-cursadas').style.width = `${pctCursadas}%`;
+  document.getElementById('barra-progreso-rendidas').style.width = `${pctRendidas}%`;
 }
 
 // Cargar el progreso guardado al iniciar
@@ -49,7 +52,12 @@ function cargarProgreso() {
   const guardado = localStorage.getItem('progresoMaterias');
   if (guardado) {
     const datos = JSON.parse(guardado);
-    Object.assign(estado, datos);
+    // Compatibilidad con versión anterior (true/false → 0/2)
+    for (const [key, val] of Object.entries(datos)) {
+      if (val === true) estado[key] = 2;
+      else if (val === false || val === 0) estado[key] = 0;
+      else estado[key] = val;
+    }
   }
 }
 
@@ -60,14 +68,13 @@ function guardarProgreso() {
 
 // Modal de exportar
 function mostrarModalExportar() {
-  const progreso = localStorage.getItem('progresoMaterias');
+  const tieneProgreso = Object.values(estado).some(v => v > 0);
   
-  if (!progreso || progreso === "{}") {
-  mostrarModalAviso("Todavía no marcaste ninguna materia :(");
-  return;
-}
+  if (!tieneProgreso) {
+    mostrarModalAviso("Todavía no marcaste ninguna materia :(");
+    return;
+  }
 
-  
   const modal = document.getElementById('modal-exportar');
   modal.style.display = 'flex';
 }
@@ -79,13 +86,14 @@ function cerrarModalExportar() {
 
 // exportar a JSON
 function exportarJSON() {
-  const progreso = localStorage.getItem('progresoMaterias');
+  const aprobadas = Object.values(estado).filter(v => v === 2).length;
   
   const exportData = {
     fecha: new Date().toISOString(),
-    progreso: JSON.parse(progreso),
+    progreso: { ...estado },
     totalMaterias: totalMaterias,
-    completadas: Object.values(JSON.parse(progreso)).filter(v => v).length
+    hechas: Object.values(estado).filter(v => v === 1).length,
+    aprobadas: aprobadas
   };
 
   const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
@@ -105,16 +113,17 @@ function exportarJSON() {
 
 // Exportar a PDF
 function exportarPDF() {
-  const progreso = localStorage.getItem("progresoMaterias");
+  const tieneProgreso = Object.values(estado).some(v => v > 0);
 
-  if (!progreso || progreso === "{}") {
+  if (!tieneProgreso) {
     mostrarModalAviso("Todavía no marcaste ninguna materia.");
     return;
   }
 
-  const datos = JSON.parse(progreso);
-
-  const completadas = Object.keys(datos).filter(id => datos[id]);
+  const hechas = Object.keys(estado).filter(id => estado[id] === 1);
+  const aprobadas = Object.keys(estado).filter(id => estado[id] === 2);
+  const sinCursar = materias.filter(m => !estado[m.id] || estado[m.id] === 0).map(m => m.id);
+  const faltaRendir = hechas; // cursadas pero sin final
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -122,18 +131,30 @@ function exportarPDF() {
   doc.setFontSize(16);
   doc.text("Progreso - Malla Curricular APU", 10, 15);
 
-  doc.setFontSize(12);
-  doc.text(`Materias completadas: ${completadas.length}`, 10, 30);
+  let y = 30;
 
-  let y = 45;
-  completadas.forEach((id, index) => {
-    const materia = materias.find(m => m.id === id);
-    doc.text(`- ${materia.nombre}`, 10, y);
-    y += 8;
-  });
+  function seccion(titulo, lista) {
+    if (lista.length === 0) return;
+    if (y > 270) { doc.addPage(); y = 20; }
+    doc.setFontSize(13);
+    doc.setFont(undefined, 'bold');
+    doc.text(`${titulo} (${lista.length}):`, 10, y);
+    y += 9;
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'normal');
+    lista.forEach(id => {
+      if (y > 280) { doc.addPage(); y = 20; }
+      const materia = materias.find(m => m.id === id);
+      doc.text(`- ${materia.nombre}`, 14, y);
+      y += 7;
+    });
+    y += 5;
+  }
+
+  seccion('Falta cursar', sinCursar);
+  seccion('Falta rendir final', faltaRendir);
 
   doc.save("progreso-malla.pdf");
-
   cerrarModalExportar();
 }
 
@@ -171,53 +192,94 @@ function cerrarModal() {
 // Confirmar reinicio
 function confirmarReinicio() {
   localStorage.removeItem('progresoMaterias');
-  // Limpiar el objeto estado
   for (let key in estado) {
     delete estado[key];
   }
-  // Actualizar la vista
   materias.forEach(m => {
     const div = document.getElementById(m.id);
-    div.classList.remove('hecha');
-    if (!m.correlativas.every(id => estado[id])) {
+    div.classList.remove('hecha', 'aprobada');
+    if (!m.correlativas.every(id => (estado[id] || 0) >= 2)) {
       div.classList.add('bloqueada');
     } else {
       div.classList.remove('bloqueada');
     }
   });
-  actualizarProgreso();  // Actualizar barra de progreso
+  actualizarProgreso();
   cerrarModal();
 }
 
 // Función que renderiza la malla
 function Malla() {
-  // Cambiar color y bloquear correlativas
   materias.forEach(m => {
     const div = document.getElementById(m.id);
-    if (estado[m.id]) {
-      div.classList.add('hecha');
-    } else {
-      div.classList.remove('hecha');
-    }
+    const est = estado[m.id] || 0;
 
-    if (!m.correlativas.every(id => estado[id])) {
+    // Aplicar clases de estado
+    div.classList.remove('hecha', 'aprobada');
+    if (est === 1) div.classList.add('hecha');
+    else if (est === 2) div.classList.add('aprobada');
+
+    // Bloquear si no se aprobaron las correlativas (estado 2)
+    const desbloqueada = m.correlativas.every(id => (estado[id] || 0) >= 2);
+    if (!desbloqueada) {
       div.classList.add('bloqueada');
     } else {
       div.classList.remove('bloqueada');
     }
 
-    // Evento click para marcar la materia como "hecha"
+    // Click: ciclo 0 → 1 → 2 → 0
     div.onclick = () => {
       if (!div.classList.contains('bloqueada')) {
-        estado[m.id] = !estado[m.id];
-        guardarProgreso();  // Guardar después de cada cambio
+        estado[m.id] = ((estado[m.id] || 0) + 1) % 3;
+        guardarProgreso();
         Malla();
       }
     };
   });
 
-actualizarProgreso();  // Actualizar barra de progreso
+  actualizarProgreso();
 }
 
-cargarProgreso();  // Cargar el progreso al iniciar
+cargarProgreso();
 Malla();
+
+function abrirHowTo() {
+  document.getElementById('modal-howto').style.display = 'flex';
+}
+
+function cerrarHowTo() {
+  document.getElementById('modal-howto').style.display = 'none';
+}
+
+// Cerrar modales al hacer click fuera del contenido
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('modal')) {
+    e.target.style.display = 'none';
+  }
+});
+
+// Cerrar modales con Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.style.display = 'none';
+    });
+  }
+});
+
+// Modo oscuro
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('darkMode', isDark);
+}
+
+// Cargar preferencia de modo
+(function() {
+  const isDark = localStorage.getItem('darkMode') === 'true';
+  if (isDark) document.body.classList.add('dark');
+  const btn = document.getElementById('btn-dark-mode');
+  if (btn) btn.innerHTML = isDark
+    ? '<span class="material-symbols-outlined">sunny</span>'
+    : '<span class="material-symbols-outlined">moon_stars</span>';
+})();
