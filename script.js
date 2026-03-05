@@ -7,7 +7,7 @@ const materias = [
   //primer año. segundo cuatrimestre
   { id: 'ayp1', nombre: 'Algorítmica y Programación I', correlativas: ['epya'] },
   { id: 'am', nombre: 'Analisis Matemático', correlativas: [] },
-  { id: 'elymd', nombre: 'Elementos de lógica y matemática discreta', correlativas: [] },
+  { id: 'elymd', nombre: 'Elementos de lógica y matemática discretaa', correlativas: [] },
   { id: 'ingles', nombre: 'Ingles', correlativas: [] },
   
   //segundo año. primer cuatrimestre
@@ -41,8 +41,10 @@ function actualizarProgreso() {
   const pctCursadas = (cursadas / totalMaterias) * 100;
   const pctRendidas = (rendidas / totalMaterias) * 100;
 
-  document.getElementById('progreso-texto').textContent =
-    `${cursadas + rendidas}/${totalMaterias} cursadas · ${rendidas}/${totalMaterias} rendidas`;
+  const esMobile = window.innerWidth <= 600;
+  document.getElementById('progreso-texto').textContent = esMobile
+    ? `${cursadas + rendidas}/${totalMaterias} · ${rendidas}/${totalMaterias}`
+    : `${cursadas + rendidas}/${totalMaterias} cursadas · ${rendidas}/${totalMaterias} rendidas`;
   document.getElementById('barra-progreso-cursadas').style.width = `${pctCursadas}%`;
   document.getElementById('barra-progreso-rendidas').style.width = `${pctRendidas}%`;
 }
@@ -274,7 +276,7 @@ function toggleDarkMode() {
   localStorage.setItem('darkMode', isDark);
 }
 
-// Cargar preferencia de modo
+// Cargar preferencia de modo oscuro — siempre setea el ícono correcto
 (function() {
   const isDark = localStorage.getItem('darkMode') === 'true';
   if (isDark) document.body.classList.add('dark');
