@@ -11,14 +11,19 @@ Hice este proyecto para visualizar el avance real en la carrera y practicar Java
 ## Funcionalidades
 
 - Visualización por año y cuatrimestre  
-- Bloqueo automático de materias según correlativas  
-- Marcado de materias completadas con un click  
+- Bloqueo automático de materias según correlativas
+- Sistema de tres estados por materia:
+    - Sin cursar (estado inicial)
+    - Cursada (un click) — se resalta en amarillo
+    - Aprobada (dos clicks) — se resalta en verde
+- Las correlativas se desbloquean solo al tener la materia aprobada
 - Guardado automático del progreso usando **localStorage**  
-- Barra de progreso dinámica con porcentaje completado  
+- Barra de progreso dinámica con doble indicador: cursadas y aprobadas
+- Modo oscuro con preferencia guardada entre sesiones  
 - Modal de confirmación para reiniciar avance
 - Sistema de exportación para guardar el avance de manera externa, tanto en:
-    - **JSON**, donde se permite descargar el archivo con el estado actual de las materias completadas, incluyendo fecha y estadíticas generales.
-    - **PDF**, pensada para generar un reporte visual del progreso.
+    - **JSON**,  descarga el estado actual de las materias con fecha y estadísticas generales.
+    - **PDF**,  genera un reporte con las materias que faltan cursar y las que faltan rendir
 
 ## Tecnologías utilizadas
 
@@ -27,7 +32,6 @@ Hice este proyecto para visualizar el avance real en la carrera y practicar Java
 - JavaScript (Vanilla)  
 - LocalStorage
 
----
 
 ## Estructura del proyecto
 ```bash
@@ -35,8 +39,11 @@ malla-curricular/
 │
 ├── index.html
 ├── style.css
-├── script.js 
-└── README.md 
+├── script.js
+├── media/
+│   ├── github-logo.svg
+│   └── cafecito-logo.svg
+└── README.md
 ```
 
 ## ¿Cómo usarlo?
@@ -52,10 +59,13 @@ git clone https://github.com/martidc/materias-apu.git
 - Abrir index.html en el navegador
 
 3) Interacción:
-- Click en una materia disponible para marcarla como completada
-- Las correlativas se desbloquean automáticamente
+- Un click en una materia disponible para marcarla como cursada
+- Dos clicks para marcarla como aprobada (final rendido)
+- Tres clicks para volver al estado inicial
+- Las correlativas se desbloquean automáticamente al aprobar las previas
 - El progreso se guarda aunque se recargue la página
-- Se puede exportar el avance desde el botón **Exportar**
+- Exportar el avance desde el botón Exportar
+- Alternar entre modo claro y oscuro
 - En caso de querer reiniciar, presionar **Reiniciar**
 
 ## Autora
